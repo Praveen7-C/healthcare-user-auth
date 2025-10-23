@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - Healthcare App{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Edit Profile
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                Update your personal information
+            </p>
+        </div>
+        
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="rounded-md {% if message.tags == 'error' %}bg-red-50 p-4{% else %}bg-green-50 p-4{% endif %}">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    {% if message.tags == 'error' %}
+                                        <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                                        </svg>
+                                    {% else %}
+                                        <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                                        </svg>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium {% if message.tags == 'error' %}text-red-800{% else %}text-green-800{% endif %}">
+                                        {{ message }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                    <!-- First Name -->
+                    <div class="sm:col-span-3">
+                        <label for="id_first_name" class="block text-sm font-medium text-gray-700">First name</label>
+                        <div class="mt-1">
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.first_name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="sm:col-span-3">
+                        <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last name</label>
+                        <div class="mt-1">
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.last_name.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="sm:col-span-6">
+                        <label for="id_email" class="block text-sm font-medium text-gray-700">Email address</label>
+                        <div class="mt-1">
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Profile Picture -->
+                    <div class="sm:col-span-6">
+                        <label class="block text-sm font-medium text-gray-700">Profile picture</label>
+                        <div class="mt-1 flex items-center">
+                            <span class="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" alt="" class="h-full w-full text-gray-300">
+                                {% else %}
+                                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                {% endif %}
+                            </span>
+                            <label for="id_profile_picture" class="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer">
+                                <span>Change</span>
+                                <input id="id_profile_picture" name="profile_picture" type="file" class="sr-only">
+                            </label>
+                        </div>
+                        {% if form.profile_picture.errors %}
+                            <p class="mt-2 text-sm text-red-600">{{ form.profile_picture.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Address Line 1 -->
+                    <div class="sm:col-span-6">
+                        <label for="id_address_line1" class="block text-sm font-medium text-gray-700">Address line 1</label>
+                        <div class="mt-1">
+                            {{ form.address_line1 }}
+                            {% if form.address_line1.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.address_line1.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- City -->
+                    <div class="sm:col-span-2">
+                        <label for="id_city" class="block text-sm font-medium text-gray-700">City</label>
+                        <div class="mt-1">
+                            {{ form.city }}
+                            {% if form.city.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.city.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- State -->
+                    <div class="sm:col-span-2">
+                        <label for="id_state" class="block text-sm font-medium text-gray-700">State / Province</label>
+                        <div class="mt-1">
+                            {{ form.state }}
+                            {% if form.state.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.state.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Pincode -->
+                    <div class="sm:col-span-2">
+                        <label for="id_pincode" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
+                        <div class="mt-1">
+                            {{ form.pincode }}
+                            {% if form.pincode.errors %}
+                                <p class="mt-2 text-sm text-red-600">{{ form.pincode.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-5">
+                    <div class="flex justify-end">
+                        <a href="{% url 'dashboard' %}" class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Cancel
+                        </a>
+                        <button type="submit" class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

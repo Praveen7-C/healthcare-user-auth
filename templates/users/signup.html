@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - Healthcare App{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Create an Account</h2>
+    
+    <form method="post" enctype="multipart/form-data" class="space-y-8">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- User Type -->
+            <div class="md:col-span-2 space-y-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">
+                    I am a:
+                </label>
+                <div class="flex space-x-6">
+                    {% for choice in form.user_type %}
+                    <div class="flex items-center">
+                        {{ choice.tag }}
+                        <label for="{{ choice.id_for_label }}" class="ml-2 text-gray-700">
+                            {{ choice.choice_label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if form.user_type.errors %}
+                    <p class="mt-2 text-red-500 text-xs italic">{{ form.user_type.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Basic Information -->
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-6">Basic Information</h3>
+            </div>
+            
+            <div class="space-y-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_first_name">
+                    First Name
+                </label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <p class="mt-1 text-red-500 text-xs italic">{{ form.first_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="space-y-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_last_name">
+                    Last Name
+                </label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <p class="mt-1 text-red-500 text-xs italic">{{ form.last_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="md:col-span-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_username">
+                    Username
+                </label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.username.errors.0 }}</p>
+                {% endif %}
+                <p class="text-gray-600 text-xs italic mt-1">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+            </div>
+            
+            <div class="md:col-span-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_email">
+                    Email
+                </label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="md:col-span-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_profile_picture">
+                    Profile Picture (Optional)
+                </label>
+                <div class="mt-1 flex items-center">
+                    <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </span>
+                    <label class="ml-5">
+                        <span class="px-4 py-2 bg-white text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border border-gray-300 rounded-md shadow-sm cursor-pointer">
+                            Change
+                            <input type="file" name="profile_picture" id="id_profile_picture" class="sr-only" accept="image/*">
+                        </span>
+                    </label>
+                </div>
+                {% if form.profile_picture.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.profile_picture.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Security</h3>
+            </div>
+            
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_password1">
+                    Password
+                </label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.password1.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_password2">
+                    Confirm Password
+                </label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.password2.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Address -->
+            <div class="md:col-span-2">
+                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">Address</h3>
+            </div>
+            
+            <div class="md:col-span-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_address_line1">
+                    Street Address
+                </label>
+                {{ form.address_line1 }}
+                {% if form.address_line1.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.address_line1.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_city">
+                    City
+                </label>
+                {{ form.city }}
+                {% if form.city.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.city.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_state">
+                    State/Province
+                </label>
+                {{ form.state }}
+                {% if form.state.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.state.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_pincode">
+                    ZIP/Postal Code
+                </label>
+                {{ form.pincode }}
+                {% if form.pincode.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.pincode.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">
+                Create Account
+            </button>
+        </div>
+    </form>
+    
+    <div class="mt-6 text-center">
+        <p class="text-gray-600">
+            Already have an account?
+            <a href="{% url 'login' %}" class="text-blue-600 hover:text-blue-800 font-semibold">Sign in</a>
+        </p>
+    </div>
+</div>
+
+<style>
+    /* Custom styling for form inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    }
+    
+    /* Style radio buttons */
+    input[type="radio"] {
+        margin-right: 0.5rem;
+    }
+    
+    /* Style file input button */
+    .file-input-button {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #f3f4f6;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .file-input-button:hover {
+        background-color: #e5e7eb;
+    }
+    
+    /* Hide the actual file input */
+    .file-input {
+        display: none;
+    }
+</style>
+
+<script>
+    // Update profile picture preview when a file is selected
+    document.getElementById('id_profile_picture').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.createElement('img');
+                preview.src = e.target.result;
+                preview.className = 'h-12 w-12 rounded-full object-cover';
+                
+                const previewContainer = document.querySelector('.inline-block.h-12.w-12');
+                previewContainer.innerHTML = '';
+                previewContainer.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Add validation feedback on form submission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        
+        if (password1.value !== password2.value) {
+            event.preventDefault();
+            alert('Passwords do not match!');
+            password2.focus();
+        }
+    });
+</script>
+{% endblock %}
