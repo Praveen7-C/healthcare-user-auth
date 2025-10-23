@@ -130,11 +130,6 @@ ALLOWED_HOSTS=localhost,127.0.0.1
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-Project Link: [https://github.com/yourusername/healthcare_project](https://github.com/yourusername/healthcare_project)
-
 ## Acknowledgments
 
 * Django Documentation
